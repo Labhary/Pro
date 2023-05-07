@@ -13,20 +13,16 @@ import java.io.IOException;
 public class AuthenticationFilter implements Filter {
 
     @Override
-    public void doFilter(
-            ServletRequest servletRequest,
-            ServletResponse servletResponse,
-            FilterChain filterChain
-    ) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         SessionUser user = SessionManager.getUser(request.getSession());
 
         if (user != null) {
-            // fetch USER from DB
+            filterChain.doFilter(request,response);
         } else {
-            response.sendRedirect("/connexion");
+            response.sendRedirect("connexion");
         }
     }
 }

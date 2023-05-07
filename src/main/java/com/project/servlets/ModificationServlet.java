@@ -1,5 +1,7 @@
 package com.project.servlets;
 
+import com.project.db.UtilisateurDAO;
+import com.project.models.Utilisateur;
 import com.project.utils.ThymeleafUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,15 +19,22 @@ public class ModificationServlet extends HttpServlet {
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Traiter la requête POST (récupérer les données du formulaire et les afficher dans la console)
-        String nom = request.getParameter("yourName");
-        String prenom = request.getParameter("yourLastName");
-        String email = request.getParameter("yourEmail");
+        // Récupérer les valeurs des champs de formulaire soumis
+        String nom = request.getParameter("FirstName");
+        String prenom = request.getParameter("LastName");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        UtilisateurDAO userDao = new UtilisateurDAO();
+        try {
+            userDao.mettreAJourUtilisateur(new Utilisateur(nom,prenom,email,password));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
-        System.out.println("Nom: " + nom);
-        System.out.println("Prénom: " + prenom);
-        System.out.println("Email: " + email);
 
-        response.sendRedirect("modification.html");
+        // Enregistrer les modifications dans la base de données ou un fichier, etc.
+
+        // Rediriger l'utilisateur vers la page de profil mise à jour
+        response.sendRedirect("profil");
     }
 }

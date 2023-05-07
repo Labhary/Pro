@@ -1,4 +1,4 @@
-package com.project.dao;
+package com.project.db;
 
 import com.project.db.DBConnection;
 import com.project.models.Utilisateur;
@@ -61,6 +61,19 @@ public class UtilisateurDAO {
         }
         return utilisateur;
     }
+    public Utilisateur recupererUtilisateurParEmail(String email) throws Exception {
+        Connection conn = DBConnection.getInstance();
+        Utilisateur utilisateur = null;
+        String query = "SELECT * FROM utilisateur WHERE email=?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, email);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                utilisateur = new Utilisateur(rs.getString("nom"), rs.getString("prenom"), rs.getString("email"), rs.getString("motDePasse"));
+            }
+        }
+        return utilisateur;
+    }
 
     public List<Utilisateur> recupererTousLesUtilisateurs() throws Exception {
         Connection conn = DBConnection.getInstance();
@@ -80,12 +93,11 @@ public class UtilisateurDAO {
         try {
 
             Connection conn = DBConnection.getInstance();
-            String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+            String sql = "SELECT * FROM utilisateur WHERE email =? AND motdepasse =?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, email);
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
-            // Check if the result set contains a record
             authenticated = rs.next();
 
         } catch (ClassNotFoundException | SQLException e) {

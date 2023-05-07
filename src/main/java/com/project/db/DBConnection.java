@@ -12,7 +12,7 @@ public class DBConnection {
     private static String login;
     private static String password;
     private static String driver;
-    private static Connection connection;
+    private static Connection connection=null;
 
     private DBConnection() throws SQLException, ClassNotFoundException, IOException {
         Properties dbProperties = DbPropertiesLoader.loadPoperties("conf.properties");
@@ -20,10 +20,9 @@ public class DBConnection {
         login = dbProperties.getProperty("db.login");
         password = dbProperties.getProperty("db.password");
         driver = dbProperties.getProperty("db.driver");
-        Class.forName("org.mariadb.jdbc.Driver");
+        Class.forName(driver);
         connection = DriverManager.getConnection(dbUrl, login, password);
     }
-
     public static Connection getInstance() throws SQLException, ClassNotFoundException, IOException {
         if (connection == null) {
             new DBConnection();

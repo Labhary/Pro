@@ -18,10 +18,15 @@ public class DbPropertiesLoader {
         return properties;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         Properties p = loadPoperties("conf.properties");
         System.out.println(p.get("db.url"));
         System.out.println(p.get("db.login"));
         System.out.println(p.get("db.driver"));
+//        Utilisateur user = new Utilisateur("sdf","sdf","yousef@gmail.com","1234");
+//        UtilisateurDAO useDao = new UtilisateurDAO();
+//        System.out.println(useDao.checkAuthentification(user.getEmail(),user.getMotDePasse()));
+
+
     }
 }

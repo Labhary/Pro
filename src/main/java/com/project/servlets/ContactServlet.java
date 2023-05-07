@@ -16,7 +16,6 @@ public class ContactServlet extends HttpServlet {
             throws IOException {
         ThymeleafUtils.write(request, response, getServletContext(), "contact");
     }
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
